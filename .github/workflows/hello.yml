@@ -1,4 +1,4 @@
-name: clock
+name: RDP Workflow
 
 on:
   workflow_dispatch:
@@ -23,17 +23,17 @@ jobs:
         Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alisanxd/Cracked-All-In-One-Checker/refs/heads/main/All-in-One%20Checker%20Version%204.9.8.rar" -OutFile "$env:USERPROFILE\Desktop\world.rar"
         Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
 
-    # مرحله 4: دانلود و آماده‌سازی ابزار اتصال (بدون تغییر نام)
+    # مرحله 4: دانلود و آماده‌سازی ابزار اتصال
     - name: Download and Prepare Connector
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
         Expand-Archive conn.zip
 
-    # مرحله 5: احراز هویت (با نام اصلی ngrok.exe)
+    # مرحله 5: احراز هویت
     - name: Authenticate Connector
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }} 
-      run: .\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }} 
+      run: .\ngrok.exe authtoken $Env:NGROK_TOKEN
 
     # مرحله 6: فعال‌سازی دسترسی و تنظیم کاربر
     - name: Enable Remote Access
@@ -44,6 +44,6 @@ jobs:
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText $Env:RDP_PASSWORD -Force)
 
-    # مرحله 7: ایجاد تونل اتصال (با نام اصلی ngrok.exe)
+    # مرحله 7: ایجاد تونل اتصال
     - name: Create Secure Tunnel
       run: .\ngrok.exe tcp 3389
