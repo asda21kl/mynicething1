@@ -24,10 +24,15 @@ jobs:
         Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
 
     # مرحله 4: دانلود و آماده‌سازی ابزار اتصال
-    - name: Download and Prepare Connector
+- name: Download and Prepare Connector (with Debugging)
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
         Expand-Archive conn.zip
+        
+        echo "--- Listing files in the current directory after unzip ---"
+        Get-ChildItem
+        echo "----------------------------------------------------------"
+
         Rename-Item -Path ".\ngrok.exe" -NewName "runner.exe"
 
     # مرحله 5: احراز هویت (مسیر اصلاح شد)
