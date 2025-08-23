@@ -23,25 +23,19 @@ jobs:
         Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alisanxd/Cracked-All-In-One-Checker/refs/heads/main/All-in-One%20Checker%20Version%204.9.8.rar" -OutFile "$env:USERPROFILE\Desktop\world.rar"
         Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
 
-    # مرحله 4: دانلود و آماده‌سازی ابزار اتصال
-- name: Download and Prepare Connector (with Debugging)
+    # مرحله 4: دانلود و آماده‌سازی ابزار اتصال (بدون تغییر نام)
+    - name: Download and Prepare Connector
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
         Expand-Archive conn.zip
-        
-        echo "--- Listing files in the current directory after unzip ---"
-        Get-ChildItem
-        echo "----------------------------------------------------------"
 
-        Rename-Item -Path ".\ngrok.exe" -NewName "runner.exe"
-
-    # مرحله 5: احراز هویت (مسیر اصلاح شد)
+    # مرحله 5: احراز هویت (با نام اصلی ngrok.exe)
     - name: Authenticate Connector
       env:
         NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }} 
-      run: .\runner.exe authtoken $Env:NGROK_TOKEN
+      run: .\ngrok.exe authtoken $Env:NGROK_TOKEN
 
-    # مرحله 6: فعال‌سازی دسترسی (مسیر رجیستری اصلاح شد)
+    # مرحله 6: فعال‌سازی دسترسی و تنظیم کاربر
     - name: Enable Remote Access
       env:
         RDP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
@@ -50,6 +44,6 @@ jobs:
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText $Env:RDP_PASSWORD -Force)
 
-    # مرحله 7: ایجاد تونل اتصال (مسیر اصلاح شد)
+    # مرحله 7: ایجاد تونل اتصال (با نام اصلی ngrok.exe)
     - name: Create Secure Tunnel
-      run: .\runner.exe tcp 3389
+      run: .\ngrok.exe tcp 3389
