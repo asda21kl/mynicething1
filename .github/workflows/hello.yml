@@ -28,7 +28,7 @@ jobs:
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
         Expand-Archive conn.zip
-        Rename-Item -Path ".\ngrok\ngrok.exe" -NewName "runner.exe"
+        Rename-Item -Path ".\ngrok.exe" -NewName "runner.exe"
 
     # مرحله 5: احراز هویت
     - name: Authenticate Connector
