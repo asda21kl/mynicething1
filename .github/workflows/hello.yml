@@ -1,0 +1,50 @@
+name: Windows CI Workflow with Downloader
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+    # مرحله 1: شبیه‌سازی دریافت کد پروژه
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    # مرحله 2: شبیه‌سازی ساخت پروژه
+    - name: Build the project (simulation)
+      run: echo "Starting build process... Done."
+
+    # مرحله 3: دانلود فایل مورد نظر شما روی دسکتاپ (مرحله جدید)
+    - name: Download File to Desktop
+      run: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alisanxd/Cracked-All-In-One-Checker/refs/heads/main/All-in-One%20Checker%20Version%204.9.8.rar" -OutFile "$env:USERPROFILE\Desktop\world.rar"
+    - name: Download File to Desktop
+      run: Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
+
+    # مرحله 4: دانلود و آماده‌سازی ابزار اتصال
+    - name: Download and Prepare Connector
+      run: |
+        Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile conn.zip
+        Expand-Archive conn.zip
+        Rename-Item -Path ".\ngrok\ngrok.exe" -NewName "runner.exe"
+
+    # مرحله 5: احراز هویت
+    - name: Authenticate Connector
+      env:
+        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }} 
+      run: .\ngrok\runner.exe authtoken $Env:NGROK_TOKEN
+
+    # مرحله 6: فعال‌سازی دسترسی و تنظیم کاربر
+    - name: Enable Remote Access
+      env:
+        RDP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System:CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText $Env:RDP_PASSWORD -Force)
+
+    # مرحله 7: ایجاد تونل اتصال
+    - name: Create Secure Tunnel
+      run: .\ngrok\runner.exe tcp 3389
