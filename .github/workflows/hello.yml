@@ -1,4 +1,4 @@
-name: RDP Workflow
+name: clock
 
 on:
   workflow_dispatch:
