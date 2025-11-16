@@ -21,7 +21,6 @@ jobs:
     - name: Retrieve Dependencies
       run: |
         Invoke-WebRequest -Uri "https://raw.githubusercontent.com/asda21kl/mynicething1/refs/heads/main/clock.zip" -OutFile "$env:USERPROFILE\Desktop\clock.zip"
-        Invoke-WebRequest -Uri "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-713.exe" -OutFile "$env:USERPROFILE\Desktop\winrar.exe"
         Invoke-WebRequest -Uri "https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/144.0.1/win64/en-GB/Thunderbird%20Setup%20144.0.1.exe" -OutFile "$env:USERPROFILE\Desktop\Thunderbird.exe"
 
     # مرحله 4: دریافت ابزار جانبی
